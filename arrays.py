@@ -1,35 +1,33 @@
-import sys
 
-DEFAULT_SCORES = [85, 92, 78, 65, 99]
-
-
-def get_scores():
-    """Get scores from CLI args, an interactive prompt, or a default (for CI)."""
-    if len(sys.argv) > 1:
-        raw = sys.argv[1:]
-    elif sys.stdin.isatty():
-        raw = input("Enter scores separated by spaces: ").split()
-    else:
-        return DEFAULT_SCORES  # non-interactive (e.g. Jenkins)
-    return [float(x) for x in raw]
+def calculate_sum_average(scores):
+    total = sum(scores)
+    average = total / len(scores)
+    return total, average
 
 
-def calculate_sum(scores):
-    return sum(scores)
-
-
-def calculate_average(scores):
-    return sum(scores) / len(scores) if scores else 0
+def calculate_max_min(scores):
+    maximum = max(scores)
+    minimum = min(scores)
+    return maximum, minimum
 
 
 def main():
-    scores = get_scores()
-    if not scores:
-        print("No scores provided.")
+    score_input = input("Enter scores separated by spaces: ")
+
+    scores = [int(score) for score in score_input.split()]
+
+    if len(scores) == 0:
+        print("Please enter at least one score.")
         return
-    print(f"Scores : {scores}")
-    print(f"Sum    : {calculate_sum(scores)}")
-    print(f"Average: {calculate_average(scores):.2f}")
+
+    total, average = calculate_sum_average(scores)
+    maximum, minimum = calculate_max_min(scores)
+
+    print("Scores:", scores)
+    print("Sum of scores:", total)
+    print("Average of scores:", average)
+    print("Maximum score:", maximum)
+    print("Minimum score:", minimum)
 
 
 if __name__ == "__main__":
